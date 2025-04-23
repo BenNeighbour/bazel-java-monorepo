@@ -24,6 +24,8 @@ maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
 maven.install(
     artifacts = [
         # Put artifact list here
+        "com.google.inject:guice:7.0.0",
+
         "org.junit.jupiter:junit-jupiter-api:5.13.0-M2",
         "org.junit.jupiter:junit-jupiter-params:5.13.0-M2",
         "org.junit.jupiter:junit-jupiter-engine:5.13.0-M2",

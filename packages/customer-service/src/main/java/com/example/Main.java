@@ -1,6 +1,9 @@
 package com.example;
 
 import com.google.common.primitives.Ints;
+import com.google.inject.Guice;
+
+import java.util.Collections;
 
 public class Main {
     public static int compare(int a, int b) {
@@ -8,7 +11,9 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        System.out.println("Customer Service Server Started!!");
-    }
+        var injector = Guice.createInjector(new ServiceModule());
+        var formatter = injector.getInstance(OrderFormatter.class);
 
+        System.out.println(formatter.formatOrderIds(Collections.singletonList("123")));
+    }
 }

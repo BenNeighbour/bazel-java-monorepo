@@ -1,9 +1,10 @@
-# TODO - Eventually abstract these away
 java_library(
     name = "lib",
     srcs = glob(["src/main/java/com/example/*.java"]),
     deps = [
+        "//packages/customer-api:lib",
         "@maven//:com_google_guava_guava",
+        "@maven//:com_google_inject_guice",
     ],
 )
 
@@ -22,9 +23,11 @@ java_test(
     args = ["--select-package", "com.example"],
     deps = [
         ":lib",
-         "@maven//:org_junit_jupiter_junit_jupiter_api",
-         "@maven//:org_junit_jupiter_junit_jupiter_params",
-         "@maven//:org_junit_jupiter_junit_jupiter_engine",
+        "//packages/customer-api:lib",
+        "@maven//:com_google_guava_guava",
+        "@maven//:org_junit_jupiter_junit_jupiter_api",
+        "@maven//:org_junit_jupiter_junit_jupiter_params",
+        "@maven//:org_junit_jupiter_junit_jupiter_engine",
     ],
     runtime_deps = [
          "@maven//:org_junit_platform_junit_platform_console",
