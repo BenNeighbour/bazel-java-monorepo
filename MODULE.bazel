@@ -1,0 +1,64 @@
+bazel_dep(name = "aspect_bazel_lib", version = "2.15.3")
+bazel_dep(name = "aspect_rules_lint", version = "1.3.1")
+bazel_dep(name = "buildifier_prebuilt", version = "8.0.3")
+
+bazel_dep(name = "rules_multitool", version = "1.2.0")
+bazel_dep(name = "rules_java", version = "8.11.0")
+bazel_dep(name = "rules_jvm_external", version = "6.7")
+bazel_dep(name = "rules_shell", version = "0.4.0")
+bazel_dep(name = "rules_oci", version = "2.2.6")
+bazel_dep(name = "platforms", version = "0.0.11")
+
+multitool = use_extension("@rules_multitool//multitool:extension.bzl", "multitool")
+multitool.hub(lockfile = "//tools:tools.lock.json")
+use_repo(multitool, "multitool")
+
+#########################
+# Java and other JVM languages:
+# https://github.com/bazelbuild/rules_jvm_external/blob/master/examples/bzlmod/MODULE.bazel
+# https://github.com/bazelbuild/rules_jvm_external#pinning-artifacts-and-integration-with-bazels-downloader
+
+# In the Maven support variation, the dependencies are conveniently listed here
+# in the MODULE.bazel file.
+maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
+maven.install(
+    artifacts = [
+        # Put artifact list here
+        "org.junit.jupiter:junit-jupiter-api:5.13.0-M2",
+        "org.junit.jupiter:junit-jupiter-params:5.13.0-M2",
+        "org.junit.jupiter:junit-jupiter-engine:5.13.0-M2",
+        "org.junit.platform:junit-platform-console:1.13.0-M2",
+    ],
+    fetch_sources = True,
+    repositories = [
+        # Put repositories here
+        "https://repo1.maven.org/maven2/",
+        "https://jcenter.bintray.com/"
+    ],
+    version_conflict_policy = "pinned",
+    lock_file = "//:maven_install.json",
+    strict_visibility = True,
+    duplicate_version_warning = "error",
+)
+
+use_repo(
+    maven,
+    "maven",
+    "unpinned_maven",
+)
+
+# TODO - Would be good to full bzlmod bazel_dep this:
+http_archive = use_repo_rule("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+
+http_archive(
+    name = "net_sourceforge_pmd",
+    build_file_content = """java_import(name = "net_sourceforge_pmd", jars = glob(["*.jar"]), visibility = ["//visibility:public"])""",
+    integrity = "sha256-vov2j2wdZphL2WRak+Yxt4ocL0L18PhxkIL+rWdVOUA=",
+    strip_prefix = "pmd-bin-7.7.0/lib",
+    url = "https://github.com/pmd/pmd/releases/download/pmd_releases/7.7.0/pmd-dist-7.7.0-bin.zip",
+)
+
+oci = use_extension("@rules_oci//oci:extensions.bzl", "oci")
+
+
+

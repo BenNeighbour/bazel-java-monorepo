@@ -1,0 +1,31 @@
+java_library(
+    name = "lib",
+    srcs = glob(["src/main/java/com/example/*.java"]),
+    deps = [
+        "@maven//:com_google_guava_guava",
+    ],
+)
+
+java_binary(
+    name = "main",
+    main_class = "com.example.Main",
+    runtime_deps = [":lib"],
+)
+
+java_test(
+    name = "test",
+    srcs = glob(["src/test/java/com/example/*.java"]),
+    use_testrunner = False,
+    test_class = "com.example.TestRunner",
+    main_class = "org.junit.platform.console.ConsoleLauncher",
+    args = ["--select-package", "com.example"],
+    deps = [
+        ":lib",
+         "@maven//:org_junit_jupiter_junit_jupiter_api",
+         "@maven//:org_junit_jupiter_junit_jupiter_params",
+         "@maven//:org_junit_jupiter_junit_jupiter_engine",
+    ],
+    runtime_deps = [
+         "@maven//:org_junit_platform_junit_platform_console",
+    ],
+)

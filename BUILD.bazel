@@ -1,0 +1,10 @@
+"""Targets in the repository root"""
+
+alias(
+    name = "format",
+    actual = "//tools/format",
+)
+exports_files(
+    [".shellcheckrc"],
+    visibility = ["//:__subpackages__"],
+)

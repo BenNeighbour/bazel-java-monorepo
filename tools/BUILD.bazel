@@ -1,0 +1,28 @@
+"""Developer tool binaries"""
+package(default_visibility = ["//visibility:public"])
+
+[
+    alias(name = tool, actual = "@multitool//tools/" + tool)
+    # This list matches tools.lock.json
+    for tool in [
+        "buf",
+        "buildozer",
+        "docker-compose",
+        "ibazel",
+        "multitool",
+        "terraform",
+        "yq",
+    ]
+]
+
+
+alias(name = "buildifier", actual = "@buildifier_prebuilt//:buildifier")
+
+
+
+
+
+
+
+
+
