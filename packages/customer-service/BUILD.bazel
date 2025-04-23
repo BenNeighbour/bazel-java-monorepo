@@ -1,3 +1,4 @@
+# TODO - Eventually abstract these away
 java_library(
     name = "lib",
     srcs = glob(["src/main/java/com/example/*.java"]),
@@ -28,4 +29,5 @@ java_test(
     runtime_deps = [
          "@maven//:org_junit_platform_junit_platform_console",
     ],
+    timeout = "short",
 )

@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
  * No parameterized tests are used — all test cases are explicit.
  */
 @DisplayName("Main.compare(int, int)")
-public class TestApp {
+public class MainTest {
 
     @Nested
     @DisplayName("Main.main(String[])")
