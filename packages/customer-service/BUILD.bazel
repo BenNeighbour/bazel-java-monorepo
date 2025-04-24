@@ -5,6 +5,8 @@ java_library(
         "//packages/customer-api:lib",
         "@maven//:com_google_guava_guava",
         "@maven//:com_google_inject_guice",
+        "@maven//:io_undertow_undertow_core",
+        "@maven//:org_jboss_resteasy_resteasy_undertow",
     ],
 )
 

@@ -7,7 +7,7 @@ import com.google.common.base.Joiner;
 public class ServiceModule extends AbstractModule {
     @Override
     protected void configure() {
-        // Bind the OrderFormatter interface to its implementation
+        bind(CustomerService.class).to(CustomerServiceImpl.class);
         bind(OrderFormatter.class).to(OrderFormatterImpl.class);
     }
 

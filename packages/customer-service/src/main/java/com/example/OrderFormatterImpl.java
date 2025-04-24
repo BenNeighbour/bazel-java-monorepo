@@ -10,8 +10,7 @@ import java.util.List;
  * skipping null elements.
  */
 public class OrderFormatterImpl implements OrderFormatter {
-    // Thread-safe, immutable Joiner instance
-    private final Joiner joiner;
+    private final Joiner joiner;  // Thread-safe, immutable Joiner instance
 
     @Inject
     public OrderFormatterImpl(Joiner joiner) {
