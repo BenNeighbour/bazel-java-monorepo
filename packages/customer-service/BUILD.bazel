@@ -24,7 +24,7 @@ java_test(
     main_class = "org.junit.platform.console.ConsoleLauncher",
     args = ["--select-package", "com.example"],
     deps = [
-        ":lib",
+        "//packages/customer-service:lib",
         "//packages/customer-api:lib",
         "@maven//:com_google_guava_guava",
         "@maven//:org_junit_jupiter_junit_jupiter_api",
@@ -35,4 +35,18 @@ java_test(
          "@maven//:org_junit_platform_junit_platform_console",
     ],
     timeout = "short",
+)
+
+
+
+java_test(
+    name = "test1",
+    srcs = glob(["src/test/java/com/example/*.java"]),
+    test_class = "com.example.TestRunner",
+    deps = [
+        "//packages/customer-service:lib",
+        "//packages/customer-api:lib",
+        "@maven//:com_google_guava_guava",
+        "@maven//:org_junit_jupiter_junit_jupiter_api",
+    ],
 )
