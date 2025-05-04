@@ -1,0 +1,10 @@
+load("@rules_go//go:def.bzl", "go_binary")
+
+go_binary(
+    name = "main",
+    srcs = glob(["main.go"]),
+    importpath = "example.com/bazel-go-hello/main",
+    deps = [
+        "@com_github_fatih_color//:go_default_library",
+    ],
+)

@@ -1,0 +1,53 @@
+"""Targets in the repository root"""
+
+load("@aspect_rules_js//js:defs.bzl", "js_library")
+load("@gazelle//:def.bzl", "gazelle", "gazelle_binary")
+load("@npm//:defs.bzl", "npm_link_all_packages")
+
+alias(
+    name = "format",
+    actual = "//tools/format",
+)
+
+exports_files(
+    [".shellcheckrc"],
+    visibility = ["//:__subpackages__"],
+)
+
+exports_files(
+    ["buf.yaml"],
+    visibility = ["//visibility:public"],
+)
+
+npm_link_all_packages(name = "node_modules")
+
+js_library(
+    name = "eslintrc",
+    srcs = ["eslint.config.mjs"],
+    visibility = ["//:__subpackages__"],
+    deps = [
+        ":node_modules/@eslint/js",
+        ":node_modules/typescript-eslint",
+    ],
+)
+
+js_library(
+    name = "prettierrc",
+    srcs = ["prettier.config.cjs"],
+    visibility = ["//tools/format:__pkg__"],
+    deps = [],
+)
+
+gazelle_binary(
+    name = "gazelle-protobuf",
+    languages = [
+        # Enable gazelle for protobuf generation
+        "@gazelle//language/proto",
+        "@rules_buf//gazelle/buf:buf",
+    ],
+)
+
+gazelle(
+    name = "gazelle",
+    gazelle = ":gazelle-protobuf",
+)

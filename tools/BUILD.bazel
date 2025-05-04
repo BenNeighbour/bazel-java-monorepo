@@ -1,0 +1,47 @@
+"""Developer tool binaries"""
+
+load("@npm//tools:yo/package_json.bzl", yo_bin = "bin")
+
+package(default_visibility = ["//visibility:public"])
+
+[
+    alias(
+        name = tool,
+        actual = "@multitool//tools/" + tool,
+    )
+    # This list matches tools.lock.json
+    for tool in [
+        "buf",
+        "buildozer",
+        "docker-compose",
+        "ibazel",
+        "multitool",
+        "terraform",
+        "yq",
+    ]
+]
+
+alias(
+    name = "buildifier",
+    actual = "@buildifier_prebuilt//:buildifier",
+)
+
+# See https://github.com/bazelbuild/rules_rust/blob/main/docs/src/upstream_tooling.md
+alias(
+    name = "cargo",
+    actual = "@rules_rust//tools/upstream_wrapper:cargo",
+)
+
+# https://github.com/bazelbuild/rules_go/blob/master/docs/go/core/bzlmod.md#using-a-go-sdk
+alias(
+    name = "go",
+    actual = "@rules_go//go",
+)
+
+yo_bin.yo_binary(name = "yo")
+
+# https://github.com/aspect-build/rules_js/blob/main/docs/faq.md#can-i-use-bazel-managed-pnpm
+alias(
+    name = "pnpm",
+    actual = "@pnpm",
+)

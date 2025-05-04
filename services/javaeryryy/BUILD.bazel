@@ -1,0 +1,37 @@
+load("@rules_graalvm//graalvm:defs.bzl", "native_image")
+
+java_library(
+    name = "lib",
+    srcs = glob(["com/example/main/**/*.java"]),
+    deps = [
+        "@maven//:com_google_code_gson_gson",
+        "@maven//:com_google_guava_guava",
+        "@maven//:com_google_inject_guice",
+    ],
+)
+
+java_binary(
+    name = "main",
+    main_class = "com.example.main.Main",
+    runtime_deps = [":lib"],
+)
+
+java_test(
+    name = "test",
+    srcs = glob(["com/example/test/**/*.java"]),
+    test_class = "com.example.test.MainTest",
+    deps = [
+        ":lib",
+        "@maven//:com_google_guava_guava",
+        "@maven//:com_google_inject_guice",
+        "@maven//:org_junit_jupiter_junit_jupiter_api",
+        "@maven//:org_junit_jupiter_junit_jupiter_engine",
+        "@maven//:org_junit_platform_junit_platform_engine",
+    ],
+)
+
+native_image(
+    name = "native",
+    main_class = "com.example.main.Main",
+    deps = [":lib"],
+)

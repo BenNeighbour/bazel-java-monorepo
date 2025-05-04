@@ -1,0 +1,59 @@
+syntax = "proto3";
+
+package tutorial;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package    = "github.com/example/project/tutorialpb";
+option java_package  = "com.example.tutorial.protos";
+option java_outer_classname = "TutorialProtos";
+
+// A person with contact info.
+message Person {
+  int32 id = 1;
+  string name = 2;
+  string email = 3;
+
+  // A phone number with its type.
+  message PhoneNumber {
+    string number = 1;
+    PhoneType type = 2;
+  }
+
+  // A person can have multiple phone numbers.
+  repeated PhoneNumber phones = 4;
+
+  // Last time this record was updated.
+  google.protobuf.Timestamp last_updated = 5;
+}
+
+// Types of phone numbers.
+enum PhoneType {
+  PHONE_TYPE_UNSPECIFIED = 0;
+  PHONE_TYPE_MOBILE      = 1;
+  PHONE_TYPE_HOME        = 2;
+  PHONE_TYPE_WORK        = 3;
+}
+
+// A directory mapping user IDs to Person entries.
+message AddressBook {
+  map<int32, Person> people = 1;
+}
+
+// Service definition for managing the address book.
+service AddressBookService {
+  // Retrieves a person by ID.
+  rpc GetPerson(GetPersonRequest) returns (Person);
+  // Adds or updates a person.
+  rpc UpsertPerson(Person)        returns (UpsertPersonResponse);
+}
+
+// Request message for GetPerson.
+message GetPersonRequest {
+  int32 id = 1;
+}
+
+// Response message for UpsertPerson.
+message UpsertPersonResponse {
+  bool success = 1;
+}

@@ -1,0 +1,19 @@
+load("@rules_graalvm//graalvm:defs.bzl", "native_image")
+
+java_library(
+    name = "lib",
+    srcs = glob(["*.java"]),
+)
+
+java_binary(
+    name = "main",
+    main_class = "com.example.Main",
+    runtime_deps = [":lib"],
+)
+
+native_image(
+    name = "native",
+    main_class = "com.example.Main",
+    deps = [":lib"],
+    tags = ["manual"],
+)
